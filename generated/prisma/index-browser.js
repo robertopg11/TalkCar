@@ -161,6 +161,17 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.CarScalarFieldEnum = {
+  id: 'id',
+  brand: 'brand',
+  model: 'model',
+  plate: 'plate',
+  color: 'color',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
@@ -188,6 +199,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
+  Car: 'Car',
   VerificationToken: 'VerificationToken'
 };
 

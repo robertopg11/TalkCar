@@ -1,5 +1,6 @@
 import { postRouter } from "talkcar/server/api/routers/post";
 import { userRouter } from "talkcar/server/api/routers/user";
+import { carRouter } from "talkcar/server/api/routers/car";
 import { createCallerFactory, createTRPCRouter } from "talkcar/server/api/trpc";
 
 /**
@@ -10,6 +11,7 @@ import { createCallerFactory, createTRPCRouter } from "talkcar/server/api/trpc";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   user: userRouter,
+  car: carRouter,
 });
 
 // export type definition of API

@@ -50,7 +50,23 @@ export default async function Home() {
 
             <div className="flex flex-col items-center justify-center gap-4">
               <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
+                {session && (
+                  <div className="flex flex-col items-center gap-2">
+                    <span>Logged in as {session.user?.name}</span>
+                    <Link
+                      href="/profile"
+                      className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 underline"
+                    >
+                      Ver mi perfil
+                    </Link>
+                    <Link
+                      href="/cars"
+                      className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 underline"
+                    >
+                      Gestionar mis coches
+                    </Link>
+                  </div>
+                )}
               </p>
               <Link
                 href={session ? "/api/auth/signout" : "/api/auth/signin"}
