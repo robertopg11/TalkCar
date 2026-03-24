@@ -16,13 +16,20 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+import { Navbar } from "talkcar/app/_components/navbar";
+import { Footer } from "talkcar/app/_components/footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+      <body className="flex flex-col min-h-screen">
+        <TRPCReactProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </TRPCReactProvider>
       </body>
     </html>
   );

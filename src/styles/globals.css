@@ -1,6 +1,67 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  
+  /* Midnight Chrome Palette */
+  --color-brand: #00b4d8;
+  --color-brand-hover: #0077b6;
+  --color-bg-dark: #0b0c10;
+  --color-bg-card: rgba(31, 41, 55, 0.5);
+  --color-accent: #45a29e;
+  --color-silver: #c5c6c7;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+  body {
+    @apply antialiased text-silver bg-bg-dark selection:bg-brand/30 selection:text-white;
+  }
+}
+
+@layer utilities {
+  .nav-link {
+    @apply text-silver/70 hover:text-brand font-medium transition-all hover:scale-105;
+  }
+
+  .btn-primary {
+    @apply bg-brand hover:bg-brand-hover text-bg-dark px-6 py-2 rounded-lg font-bold transition-all shadow-lg shadow-brand/20 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply border-2 border-silver/20 hover:border-brand hover:text-brand px-6 py-2 rounded-lg font-bold transition-all text-silver active:scale-95;
+  }
+
+  .glass-card {
+    @apply bg-bg-card backdrop-blur-md border border-glass-border rounded-2xl shadow-xl transition-all duration-300;
+  }
+
+  .search-container {
+    @apply flex items-center bg-white/5 backdrop-blur-lg rounded-2xl shadow-2xl p-1 w-full max-w-3xl mx-auto border border-white/10 ring-1 ring-white/5;
+  }
+
+  .search-input {
+    @apply flex-1 bg-transparent border-none outline-none px-6 text-2xl font-mono tracking-widest text-white placeholder:text-silver/30;
+  }
+
+  .search-btn {
+    @apply bg-brand hover:bg-brand-hover text-bg-dark px-8 py-4 rounded-xl font-bold flex items-center gap-2 transition-all hover:shadow-brand/40 active:scale-95;
+  }
+
+  .process-card {
+    @apply flex flex-col items-center text-center p-8 bg-bg-card backdrop-blur-md border border-glass-border rounded-2xl shadow-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-2;
+  }
+
+  .icon-wrapper {
+    @apply w-20 h-20 flex items-center justify-center rounded-2xl bg-brand/10 text-brand mb-6 shadow-inner;
+  }
+
+  @keyframes slowZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+
+  .animate-slow-zoom {
+    animation: slowZoom 20s ease-in-out infinite alternate;
+  }
 }

@@ -30,67 +30,74 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-white/10 p-8 shadow-xl backdrop-blur-sm">
+    <main className="flex-1 flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="w-full max-w-md space-y-8 glass-card p-10 animate-in fade-in zoom-in duration-500">
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold tracking-tight">Registro</h1>
-          <p className="mt-2 text-white/60">Crea tu cuenta en TalkCar</p>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-brand/20 rounded-2xl text-brand mb-6 shadow-glow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2">Únete a TalkCar</h1>
+          <p className="text-silver/60">Gestiona tu colección de coches hoy mismo</p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="rounded-md bg-red-500/20 p-3 text-sm text-red-200">
+            <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 animate-shake">
               {error}
             </div>
           )}
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <label className="text-sm font-medium">Nombre</label>
+              <label className="text-sm font-semibold text-silver/80 ml-1">Nombre Completo</label>
               <input
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border-0 bg-white/5 py-2 px-3 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                placeholder="Juan Pérez"
+                className="mt-2 block w-full rounded-xl border border-white/5 bg-white/5 py-3 px-4 text-white placeholder:text-silver/20 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 outline-none transition-all"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Email</label>
+              <label className="text-sm font-semibold text-silver/80 ml-1">Correo Electrónico</label>
               <input
                 type="email"
                 required
-                className="mt-1 block w-full rounded-md border-0 bg-white/5 py-2 px-3 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                placeholder="juan@ejemplo.com"
+                className="mt-2 block w-full rounded-xl border border-white/5 bg-white/5 py-3 px-4 text-white placeholder:text-silver/20 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 outline-none transition-all"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Contraseña</label>
+              <label className="text-sm font-semibold text-silver/80 ml-1">Contraseña</label>
               <input
                 type="password"
                 required
-                className="mt-1 block w-full rounded-md border-0 bg-white/5 py-2 px-3 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                placeholder="••••••••"
+                className="mt-2 block w-full rounded-xl border border-white/5 bg-white/5 py-3 px-4 text-white placeholder:text-silver/20 focus:border-brand/50 focus:ring-2 focus:ring-brand/20 outline-none transition-all"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={registerMutation.isPending}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-            >
-              {registerMutation.isPending ? "Registrando..." : "Registrarse"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={registerMutation.isPending}
+            className="btn-primary w-full py-4 text-lg mt-8"
+          >
+            {registerMutation.isPending ? "Preparando motores..." : "Registrarse Ahora"}
+          </button>
         </form>
 
-        <p className="text-center text-sm text-white/50">
+        <p className="text-center text-silver/40">
           ¿Ya tienes cuenta?{" "}
-          <Link href="/api/auth/signin" className="font-semibold text-indigo-400 hover:text-indigo-300">
+          <Link href="/api/auth/signin" className="font-bold text-brand hover:text-brand-hover underline-offset-4 hover:underline transition-all">
             Inicia sesión
           </Link>
         </p>
