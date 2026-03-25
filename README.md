@@ -1,31 +1,37 @@
-# Create T3 App
+# 🏎️ TalkCar - Tu Garaje Virtual
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+TalkCar es una aplicación web premium diseñada para entusiastas de los coches. Permite a los usuarios buscar vehículos por matrícula, conocer sus detalles y guardarlos en una colección personal (garaje virtual).
 
-## What's next? How do I make an app with this?
+## 🚀 Características Principales
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- **Búsqueda por Matrícula**: Encuentra información técnica y detalles de cualquier coche.
+- **Garaje Virtual**: Guarda tus coches favoritos y gestiona tu colección.
+- **Autenticación Segura**: Registro e inicio de sesión integrados con NextAuth.
+- **Diseño Premium**: Interfaz moderna con estética "Midnight Chrome" y efectos de cristal.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 🛠️ Tecnologías Utilizadas
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Este proyecto utiliza el [T3 Stack](https://create.t3.gg/):
 
-## Learn More
+- **Next.js**: Framework de React para el frontend y backend (App Router).
+- **tRPC**: APIs seguras de extremo a extremo con TypeScript.
+- **Prisma**: ORM para la gestión de la base de datos PostgreSQL.
+- **NextAuth.js**: Autenticación de usuarios.
+- **Postgres**: Base de datos relacional (alojada en Supabase).
+- **Vanilla CSS / Tailwind**: Estilos personalizados de alta calidad.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## 📁 Estructura del Proyecto
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- `src/app`: Páginas y componentes de la aplicación.
+- `src/server/api`: Definición de los endpoints de la API (tRPC).
+- `src/server/auth`: Configuración de la autenticación.
+- `src/server/db.ts`: Cliente de la base de datos.
+- `prisma/`: Esquema de datos y migraciones.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## 📖 Documentación para Desarrolladores
 
-## How do I deploy this?
+- [**Guía de Configuración (SETTING_UP.md)**](./SETTING_UP.md): Instrucciones para levantar el proyecto y desplegarlo en Vercel.
+- [**Cómo Añadir Funciones (HOW_TO.txt)**](./HOW_TO.txt): Guía rápida para añadir nuevos endpoints, tablas en la base de datos o páginas.
 
-Para instrucciones detalladas sobre cómo configurar y desplegar TalkCar, consulta nuestra [Guía de Configuración (SETTING_UP.md)](./SETTING_UP.md).
-
-También puedes seguir las guías generales para [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) y [Docker](https://create.t3.gg/en/deployment/docker).
+---
+© 2026 TalkCar - Todos los derechos reservados.

@@ -1,4 +1,3 @@
-import { auth } from "talkcar/server/auth";
 import { HydrateClient } from "talkcar/trpc/server";
 import { HeroSlideshow } from "talkcar/app/_components/hero-slideshow";
 

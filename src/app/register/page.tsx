@@ -7,7 +7,6 @@ import { signIn } from "next-auth/react";
 import { api } from "talkcar/trpc/react";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",

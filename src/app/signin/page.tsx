@@ -35,8 +35,8 @@ export default function SignInPage() {
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch (err) {
-      setError("Ha ocurrido un error inesperado.");
+    } catch {
+      setError("Credenciales inválidas. Por favor, inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
