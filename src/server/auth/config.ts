@@ -44,7 +44,7 @@ export const authConfig = {
           where: { email: credentials?.email as string },
         });
 
-        if (user && user.password) {
+        if (user?.password) {
           const isValid = await bcrypt.compare(
             credentials?.password as string,
             user.password
@@ -71,7 +71,7 @@ export const authConfig = {
       ...session,
       user: {
         ...session.user,
-        id: token.sub as string,
+        id: token.sub!,
       },
     }),
   },

@@ -3,8 +3,6 @@ import { HydrateClient } from "talkcar/trpc/server";
 import { HeroSlideshow } from "talkcar/app/_components/hero-slideshow";
 
 export default async function Home() {
-  const session = await auth();
-
   return (
     <HydrateClient>
       <main className="flex-1 flex flex-col">
