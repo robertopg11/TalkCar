@@ -22,8 +22,6 @@ Crea un archivo `.env` en la raíz del proyecto (puedes copiar el `.env.example`
 | :--- | :--- | :--- |
 | `DATABASE_URL` | URL de conexión a PostgreSQL. | `postgresql://postgres:password@localhost:5432/talk_car` |
 | `AUTH_SECRET` | Secreto para NextAuth. | Generar con `npx auth secret` |
-| `AUTH_DISCORD_ID` | Client ID de Discord OAuth. | [Discord Developer Portal](https://discord.com/developers/applications) |
-| `AUTH_DISCORD_SECRET` | Client Secret de Discord OAuth. | [Discord Developer Portal](https://discord.com/developers/applications) |
 
 ---
 
