@@ -66,6 +66,9 @@ export const authConfig = {
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/signin",
+  },
   callbacks: {
     session: ({ session, token }) => ({
       ...session,
