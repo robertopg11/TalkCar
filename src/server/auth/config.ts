@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 import { db } from "talkcar/server/db";
 
@@ -32,24 +33,45 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-    DiscordProvider,
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "test@example.com" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = await db.user.findUnique({
+          where: { email: credentials?.email as string },
+        });
+
+        if (user && user.password) {
+          const isValid = await bcrypt.compare(
+            credentials?.password as string,
+            user.password
+          );
+
+          if (isValid) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+            };
+          }
+        }
+        return null;
+      },
+    }),
   ],
   adapter: PrismaAdapter(db),
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.sub as string,
       },
     }),
   },
