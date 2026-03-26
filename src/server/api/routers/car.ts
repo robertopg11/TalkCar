@@ -31,7 +31,7 @@ export const carRouter = createTRPCRouter({
         data: {
           brand: input.brand,
           model: input.model,
-          plate: input.plate,
+          plate: input.plate.toUpperCase().replace(/\s+/g, ""),
           color: input.color,
           imageUrl: input.imageUrl,
           owner: { connect: { id: ctx.session.user.id } },
@@ -49,4 +49,21 @@ export const carRouter = createTRPCRouter({
       take: 10,
     });
   }),
+
+  // Buscar un coche específico por su matrícula
+  getByPlate: publicProcedure
+    .input(z.object({ plate: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.car.findUnique({
+        where: { plate: input.plate.toUpperCase().replace(/\s+/g, "") },
+        include: {
+          owner: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+    }),
 });

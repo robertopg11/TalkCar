@@ -1,5 +1,6 @@
 import { HydrateClient } from "talkcar/trpc/server";
 import { HeroSlideshow } from "talkcar/app/_components/hero-slideshow";
+import { SearchForm } from "talkcar/app/_components/search-form";
 
 export default async function Home() {
   return (
@@ -19,20 +20,7 @@ export default async function Home() {
             </p>
 
             {/* Search Bar */}
-            <div className="search-container group focus-within:ring-4 focus-within:ring-brand/30 transition-all">
-              <div className="pl-6 text-brand/50">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              </div>
-              <input 
-                type="text" 
-                placeholder="Ej: 1234 LMK" 
-                className="search-input"
-              />
-              <button className="search-btn">
-                <span>Buscar Coche</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              </button>
-            </div>
+            <SearchForm />
           </div>
         </section>
 
