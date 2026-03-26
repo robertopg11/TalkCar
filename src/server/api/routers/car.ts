@@ -23,6 +23,7 @@ export const carRouter = createTRPCRouter({
         model: z.string().min(1),
         plate: z.string().min(1),
         color: z.string().optional(),
+        imageUrl: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -32,6 +33,7 @@ export const carRouter = createTRPCRouter({
           model: input.model,
           plate: input.plate,
           color: input.color,
+          imageUrl: input.imageUrl,
           owner: { connect: { id: ctx.session.user.id } },
         },
       });
