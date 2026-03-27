@@ -24,6 +24,7 @@ export const carRouter = createTRPCRouter({
         plate: z.string().min(1),
         color: z.string().optional(),
         imageUrl: z.string().optional(),
+        bio: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -34,6 +35,7 @@ export const carRouter = createTRPCRouter({
           plate: input.plate.toUpperCase().replace(/\s+/g, ""),
           color: input.color,
           imageUrl: input.imageUrl,
+          bio: input.bio,
           owner: { connect: { id: ctx.session.user.id } },
         },
       });
@@ -63,6 +65,39 @@ export const carRouter = createTRPCRouter({
               image: true,
             },
           },
+        },
+      });
+    }),
+
+  // Actualizar un coche existente
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        brand: z.string().min(1).optional(),
+        model: z.string().min(1).optional(),
+        color: z.string().optional(),
+        imageUrl: z.string().optional(),
+        bio: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const car = await ctx.db.car.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!car || car.ownerId !== ctx.session.user.id) {
+        throw new Error("No tienes permiso para editar este coche.");
+      }
+
+      return ctx.db.car.update({
+        where: { id: input.id },
+        data: {
+          brand: input.brand,
+          model: input.model,
+          color: input.color,
+          imageUrl: input.imageUrl,
+          bio: input.bio,
         },
       });
     }),

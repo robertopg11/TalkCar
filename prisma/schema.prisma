@@ -53,7 +53,8 @@ model User {
     password      String?
     accounts      Account[]
     sessions      Session[]
-    cars          Car[]
+    cars          Car[]     @relation("OwnerCars")
+    comments      Comment[]
 }
 
 model Car {
@@ -63,10 +64,23 @@ model Car {
     plate     String   @unique
     color     String?
     imageUrl  String?
+    bio       String?
+    comments  Comment[]
 
-    owner     User     @relation(fields: [ownerId], references: [id])
+    owner     User     @relation("OwnerCars", fields: [ownerId], references: [id])
     ownerId   String
 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Comment {
+    id        String   @id @default(cuid())
+    content   String
+    car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+    carId     String
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
