@@ -21,6 +21,16 @@ export default function CarsPage() {
     bio: "",
   });
 
+  interface CarType {
+    id: string;
+    brand: string;
+    model: string;
+    plate: string;
+    color?: string | null;
+    imageUrl?: string | null;
+    bio?: string | null;
+  }
+
   const utils = api.useUtils();
   const cars = api.car.getMyCars.useQuery();
 
@@ -46,16 +56,16 @@ export default function CarsPage() {
     setEditingCarId(null);
   };
 
-  const handleEdit = (car: any) => {
+  const handleEdit = (car: CarType) => {
     setFormData({
       brand: car.brand,
       model: car.model,
       plate: car.plate,
-      color: car.color || "",
-      bio: car.bio || "",
+      color: car.color ?? "",
+      bio: car.bio ?? "",
     });
     setEditingCarId(car.id);
-    setPreviewUrl(car.imageUrl || null);
+    setPreviewUrl(car.imageUrl ?? null);
     setIsAdding(true);
 
     // Scroll al formulario
@@ -79,7 +89,7 @@ export default function CarsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let imageUrl = previewUrl || "";
+    let imageUrl = previewUrl ?? "";
 
     if (selectedFile) {
       setIsUploading(true);
@@ -94,7 +104,7 @@ export default function CarsPage() {
 
         if (!res.ok) throw new Error("Error al subir la imagen");
 
-        const data = await res.json();
+        const data = (await res.json()) as { imageUrl: string };
         imageUrl = data.imageUrl;
       } catch (error) {
         console.error(error);
@@ -334,7 +344,7 @@ export default function CarsPage() {
 
                   {car.bio && (
                     <p className="text-silver/50 text-sm italic line-clamp-2 min-h-[40px] mb-4">
-                      "{car.bio}"
+                      &quot;{car.bio}&quot;
                     </p>
                   )}
 

@@ -91,7 +91,7 @@ export const carRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
-      if (!car || car.ownerId !== ctx.session.user.id) {
+      if (car?.ownerId !== ctx.session.user.id) {
         throw new Error("No tienes permiso para editar este coche.");
       }
 

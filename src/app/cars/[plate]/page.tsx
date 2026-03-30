@@ -1,6 +1,5 @@
 import { api } from "talkcar/trpc/server";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { CommentSection } from "./_components/comment-section";
 
 export default async function CarProfilePage({

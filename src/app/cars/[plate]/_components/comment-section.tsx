@@ -81,7 +81,7 @@ export function CommentSection({ carId }: CommentSectionProps) {
           </div>
         ) : comments.data?.length === 0 ? (
           <div className="text-center py-10 opacity-40 italic">
-            "Aún no hay avistamientos. Sé el primero en decir algo."
+            &quot;Aún no hay avistamientos. Sé el primero en decir algo.&quot;
           </div>
         ) : (
           comments.data?.map((comment) => (
