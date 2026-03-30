@@ -16,18 +16,6 @@ datasource db {
     directUrl = env("DIRECT_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -65,8 +53,8 @@ model User {
     password      String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
-    cars          Car[]
+    cars          Car[]     @relation("OwnerCars")
+    comments      Comment[]
 }
 
 model Car {
@@ -75,10 +63,24 @@ model Car {
     model     String
     plate     String   @unique
     color     String?
+    imageUrl  String?
+    bio       String?
+    comments  Comment[]
 
-    owner     User     @relation(fields: [ownerId], references: [id])
+    owner     User     @relation("OwnerCars", fields: [ownerId], references: [id])
     ownerId   String
 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Comment {
+    id        String   @id @default(cuid())
+    content   String
+    car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+    carId     String
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

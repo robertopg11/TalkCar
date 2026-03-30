@@ -66,7 +66,20 @@ export const authConfig = {
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/signin",
+  },
   callbacks: {
+    authorized: ({ auth, request: { nextUrl } }) => {
+      const isLoggedIn = !!auth?.user;
+      const isProtectedRoute = nextUrl.pathname.startsWith("/cars") || nextUrl.pathname.startsWith("/profile");
+
+      if (isProtectedRoute && !isLoggedIn) {
+        return false; // Redirect to login
+      }
+
+      return true;
+    },
     session: ({ session, token }) => ({
       ...session,
       user: {

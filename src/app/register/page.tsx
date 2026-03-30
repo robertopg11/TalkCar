@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { api } from "talkcar/trpc/react";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,8 +15,12 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
 
   const registerMutation = api.user.register.useMutation({
-    onSuccess: () => {
-      router.push("/api/auth/signin");
+    onSuccess: async () => {
+      await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        callbackUrl: "/cars",
+      });
     },
     onError: (err) => {
       setError(err.message);
@@ -97,7 +101,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-silver/40">
           ¿Ya tienes cuenta?{" "}
-          <Link href="/api/auth/signin" className="font-bold text-brand hover:text-brand-hover underline-offset-4 hover:underline transition-all">
+          <Link href="/signin" className="font-bold text-brand hover:text-brand-hover underline-offset-4 hover:underline transition-all">
             Inicia sesión
           </Link>
         </p>

@@ -23,6 +23,8 @@ export const carRouter = createTRPCRouter({
         model: z.string().min(1),
         plate: z.string().min(1),
         color: z.string().optional(),
+        imageUrl: z.string().optional(),
+        bio: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -30,8 +32,10 @@ export const carRouter = createTRPCRouter({
         data: {
           brand: input.brand,
           model: input.model,
-          plate: input.plate,
+          plate: input.plate.toUpperCase().replace(/\s+/g, ""),
           color: input.color,
+          imageUrl: input.imageUrl,
+          bio: input.bio,
           owner: { connect: { id: ctx.session.user.id } },
         },
       });
@@ -47,4 +51,54 @@ export const carRouter = createTRPCRouter({
       take: 10,
     });
   }),
+
+  // Buscar un coche específico por su matrícula
+  getByPlate: publicProcedure
+    .input(z.object({ plate: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.car.findUnique({
+        where: { plate: input.plate.toUpperCase().replace(/\s+/g, "") },
+        include: {
+          owner: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+    }),
+
+  // Actualizar un coche existente
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        brand: z.string().min(1).optional(),
+        model: z.string().min(1).optional(),
+        color: z.string().optional(),
+        imageUrl: z.string().optional(),
+        bio: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const car = await ctx.db.car.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!car || car.ownerId !== ctx.session.user.id) {
+        throw new Error("No tienes permiso para editar este coche.");
+      }
+
+      return ctx.db.car.update({
+        where: { id: input.id },
+        data: {
+          brand: input.brand,
+          model: input.model,
+          color: input.color,
+          imageUrl: input.imageUrl,
+          bio: input.bio,
+        },
+      });
+    }),
 });

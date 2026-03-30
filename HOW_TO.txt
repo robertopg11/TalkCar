@@ -1,0 +1,79 @@
+================================================================================
+                           GUIA DE DESARROLLO - TALKCAR
+================================================================================
+
+Este documento explica como extender las funcionalidades de este proyecto.
+
+--------------------------------------------------------------------------------
+1. COMO AÑADIR UN NUEVO ENDPOINT (API tRPC)
+--------------------------------------------------------------------------------
+
+Los endpoints se definen como procedimientos de tRPC en la carpeta:
+src/server/api/routers/
+
+Pasos:
+1. Crea o abre un archivo en esa carpeta (ej. 'perfil.ts').
+2. Define el router y el procedimiento. Ejemplo:
+   
+   export const perfilRouter = createTRPCRouter({
+     getMiInfo: publicProcedure.query(() => {
+       return { nombre: "Usuario" };
+     }),
+   });
+
+3. Registra el nuevo router en 'src/server/api/root.ts':
+   
+   export const appRouter = createTRPCRouter({
+     perfil: perfilRouter,
+     ...
+   });
+
+4. Usalo en el frontend:
+   const { data } = api.perfil.getMiInfo.useQuery();
+
+--------------------------------------------------------------------------------
+2. COMO AÑADIR UNA TABLA O COLUMNA A LA BASE DE DATOS
+--------------------------------------------------------------------------------
+
+Usamos Prisma como ORM. El esquema esta en:
+prisma/schema.prisma
+
+Pasos:
+1. Modifica el archivo 'schema.prisma':
+   - Para añadir una columna: añade el campo al modelo (ej: 'color String?').
+   - Para añadir una tabla: crea un nuevo bloque 'model Marca { ... }'.
+
+2. Sincroniza la base de datos y regenera el cliente:
+   Ejecuta en la terminal:
+   npx prisma db push
+
+   (Esto actualizara tu base de datos y el autocompletado en el codigo).
+
+--------------------------------------------------------------------------------
+3. COMO AÑADIR UNA NUEVA PAGINA
+--------------------------------------------------------------------------------
+
+Usamos el App Router de Next.js. Las paginas estan en:
+src/app/
+
+Pasos:
+1. Crea una nueva carpeta en 'src/app/' con el nombre de tu ruta (ej. 'ajustes').
+2. Dentro, crea un archivo 'page.tsx':
+   
+   export default function AjustesPage() {
+     return <div>Mi Pagina de Ajustes</div>;
+   }
+
+3. La pagina estara disponible en localhost:3000/ajustes automatically.
+
+--------------------------------------------------------------------------------
+4. ARQUITECTURA DEL PROYECTO
+--------------------------------------------------------------------------------
+
+- src/app: Paginas y componentes visuales.
+- src/server/api: Logica del backend (tRPC).
+- src/server/auth: Configuracion de autenticacion (NextAuth).
+- src/server/db.ts: Conexion a la base de datos (Prisma).
+- prisma/schema.prisma: Definicion de los datos.
+
+================================================================================
