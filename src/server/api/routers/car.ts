@@ -41,14 +41,19 @@ export const carRouter = createTRPCRouter({
       });
     }),
 
-  // Consulta pública: listado general (opcional)
-  getAllPublic: publicProcedure.query(({ ctx }) => {
+  // Consulta pública: listado general (Últimos Avistamientos)
+  getGlobalActivity: publicProcedure.query(({ ctx }) => {
     return ctx.db.car.findMany({
-      select: {
-        brand: true,
-        model: true,
+      orderBy: { createdAt: "desc" },
+      take: 6, // Mostramos los últimos 6 coches
+      include: {
+        owner: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
       },
-      take: 10,
     });
   }),
 
