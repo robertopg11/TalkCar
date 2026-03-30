@@ -1,30 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
 import { db } from "talkcar/server/db";
-
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
-  }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
+import { authConfig as edgeConfig } from "./auth.config";
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -32,6 +12,7 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authConfig = {
+  ...edgeConfig,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -65,27 +46,5 @@ export const authConfig = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
-  },
-  pages: {
-    signIn: "/signin",
-  },
-  callbacks: {
-    authorized: ({ auth, request: { nextUrl } }) => {
-      const isLoggedIn = !!auth?.user;
-      const isProtectedRoute = nextUrl.pathname.startsWith("/cars") || nextUrl.pathname.startsWith("/profile");
-
-      if (isProtectedRoute && !isLoggedIn) {
-        return false; // Redirect to login
-      }
-
-      return true;
-    },
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub!,
-      },
-    }),
   },
 } satisfies NextAuthConfig;
